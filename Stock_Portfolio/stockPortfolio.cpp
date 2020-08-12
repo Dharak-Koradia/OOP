@@ -15,37 +15,52 @@ struct StockInfo
 int menuOption();
 void addStock(vector<StockInfo>&);
 void printPortfolio(vector<StockInfo>&);
+void sellStock(vector<StockInfo>&, int);
+
+// Global variable to count the total money
+double remainingMoney;
 
 int main()
 {
     cout << "\n";
-    
+    remainingMoney = 0.0;
     vector<StockInfo> vect;
-
     int choice = menuOption();
 
-    while (choice != 3)
+    while (choice != 4)
     {
-        if (choice == 1)
+
+        switch (choice)
         {
-            //cout << "\nUsing Add stock option";
+        case 1:
             addStock(vect);
-        }
-        else
-        {
-            // cout << "\noption 2 chosen";
+            break;
+
+        case 2:
+            int remove;
+            cout << "\nEnter the number of the stock you want to remove: ";
+            cin >> remove;
+            sellStock(vect, remove);
+            break;
+
+        case 3:
             printPortfolio(vect);
+            break;
+        
+        default:
+            break;
         }
 
         choice = menuOption();
     }
     
-    cout << "\n===========";
-    cout << "\nSUMMARY\n";
+    cout << "\n__________________________________________________________"
+        << "\nSUMMARY\n";
     printPortfolio(vect);
-    cout << "\n===========";
+    cout << "\nMoney used in share transactions: $" << remainingMoney;
+    cout << "\n__________________________________________________________"
+        << "\nGoodbye!\n\n";
 
-    cout << "\n\n\nGoodbye!\n\n";
     return 0;
 }
 
@@ -55,18 +70,18 @@ int menuOption()
 {
     int choice = 0;
     cout << "\n1 - Add Stock"
-        << "\n2 - Display Profit/Loss"
-        << "\n3 - Exit Program"
+        << "\n2 - Sell Stock"
+        << "\n3 - Display Potential Profit/Loss"
+        << "\n4 - Exit Program"
         << "\nEnter your choice: ";
     cin >> choice; 
-    while (choice < 1 || choice > 3)
+    while (choice < 1 || choice > 4)
     {
         cout << "Invalid input, please re-enter: ";
         cin >> choice;
     }
     
     return choice;
-
 }
 
 
@@ -83,9 +98,9 @@ void addStock(vector<StockInfo>& vect)
         obj.companyName = compName;
         cout << "Number of shares: ";
         cin >> obj.numOfShares;
-        cout << "Purchase price? ";
+        cout << "Purchase price? $";
         cin >> obj.purchasePrice;
-        cout << "Current price? ";
+        cout << "Current price? $";
         cin >> obj.currentPrice;
 
         obj.currentValue = obj.numOfShares * (obj.currentPrice - obj.purchasePrice);
@@ -97,9 +112,7 @@ void addStock(vector<StockInfo>& vect)
         cout << "\n\n-----------------------------------";
         cout << "\nSorry, no space left in the stock array";
         cout << "\n-----------------------------------\n\n";
-
     }
-
 }
 
 
@@ -107,13 +120,48 @@ void printPortfolio(vector<StockInfo>& vect)
 {
     cout << "\n\n\nPortfolio Report\n";
     cout << "=================================\n";
-    cout << "Company" << setw(20) << "Profit (Loss)\n";
+    cout  << setw(1) << "  Company" << setw(30) << "Potential Profit (Loss)\n";
+    int j = 1;
     for (int i = 0; i < vect.size(); i++)
     {
-        cout << vect.at(i).companyName << setw(9) << "$" << setw(9) << fixed << setprecision(2) << vect.at(i).currentValue << "\n";  
+        cout << j << setw(8) << vect.at(i).companyName << setw(9) << "$" << setw(9) << fixed << setprecision(2) << vect.at(i).currentValue << "\n";  
+        j++;
     }
     cout << "=================================\n";
-
 }
 
+
+void sellStock(vector<StockInfo>& vect, int stockNum)
+{
+    if (vect.size() > 0)
+    {
+        int removeStock = stockNum;
+        printPortfolio(vect);
+        cout << "\n";
+        while (removeStock < 1 || removeStock > vect.size())
+        {
+            cout << "Invalid stock number, please re-enter: ";
+            cin >> removeStock;
+        }
+
+        remainingMoney += vect.at(removeStock - 1).currentValue;
+
+        // subract 1 from the original removeStock to access the index position
+        vect.erase(vect.begin() + removeStock - 1);
+
+        cout << "\n\nPortfolio after deleting the stock " << removeStock << ":\n\n";
+        printPortfolio(vect);
+
+        cout << "\n-------------------------------------------------";
+        cout << "\nTotal money used in transactions: $" << remainingMoney;
+        cout << "\n-------------------------------------------------\n";
+
+
+    }
+    else
+    {
+        cout << "\n\nSorry, you don't have any stocks in your portfolio\n\n";
+    }
+
+}
 
