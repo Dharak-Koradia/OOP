@@ -17,7 +17,7 @@ void addStock(vector<StockInfo>&);
 void printPortfolio(vector<StockInfo>&);
 void sellStock(vector<StockInfo>&, int);
 
-// Global variable to count the total money
+// Global variable to count the total money used in a transaction
 double remainingMoney;
 
 int main()
@@ -87,7 +87,7 @@ int menuOption()
 
 void addStock(vector<StockInfo>& vect)
 {
-    if (vect.size() < 11)
+    if (vect.size() < 10)
     {
         StockInfo obj;
         string compName;
@@ -106,13 +106,15 @@ void addStock(vector<StockInfo>& vect)
         obj.currentValue = obj.numOfShares * (obj.currentPrice - obj.purchasePrice);
 
         vect.push_back(obj);
+
     }
     else
     {
-        cout << "\n\n-----------------------------------";
+        cout << "\n\n------------------------------------------";
         cout << "\nSorry, no space left in the stock array";
-        cout << "\n-----------------------------------\n\n";
+        cout << "\n------------------------------------------\n\n";
     }
+    
 }
 
 
@@ -155,8 +157,6 @@ void sellStock(vector<StockInfo>& vect, int stockNum)
         cout << "\n-------------------------------------------------";
         cout << "\nTotal money used in transactions: $" << remainingMoney;
         cout << "\n-------------------------------------------------\n";
-
-
     }
     else
     {
@@ -164,4 +164,3 @@ void sellStock(vector<StockInfo>& vect, int stockNum)
     }
 
 }
-
