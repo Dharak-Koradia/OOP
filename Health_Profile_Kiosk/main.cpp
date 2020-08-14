@@ -1,8 +1,8 @@
-#include <iostream>
-using namespace std;
-#include <string>
+#include "healthProfile.hpp"
 
-#include "healthProfile.h"
+#include <iostream>
+#include <string>
+using namespace std;
 
 
 int main()
@@ -11,16 +11,15 @@ int main()
     string choice = "Y";
 
     HealthProfile obj;
-    string userName;
     int userAge, userHeightFeet, userHeightInches;
     double userWeight;
 
-    cout << "Enter a name or X to quit: ";
-    getline(cin, userName);
+    cout << "\n\nEnter a name or X to quit: ";
+    getline(cin, choice);
 
-    while (choice != "X" || choice != "x")
+    while (choice != "X" && choice != "x")
     {
-        obj.setName(userName);
+        obj.setName(choice);
         cout << "Your age: ";
         cin >> userAge;
         obj.setAge(userAge);
@@ -37,12 +36,15 @@ int main()
 
         obj.printProfile();
 
-
         cout << "\n\nEnter a name or X to quit: ";
-        cin >> choice;
+        cin.ignore();
+        getline(cin, choice);
        
     }
 
+    cout << "\n================";
+    cout << "\nGOODBYE!";
+    cout << "\n================\n\n";
+
     return 0;
 }
-
