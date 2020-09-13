@@ -50,6 +50,8 @@ int Course::getCredits()
 
 void Course::setGrade()
 {
+    cout << "\nPlease note that if you enter more than one grade letter at once,"
+        << "\nthen, the first character will be considered as an input.\n";
     cout << "\nPlease enter a letter grade (A-F): ";
     cin >> grade;
 
@@ -90,10 +92,4 @@ char Course::getGrade()
 {
     return toupper(grade[0]);
 }
-
-
-
-
-
-
 

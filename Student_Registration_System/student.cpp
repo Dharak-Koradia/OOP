@@ -1,5 +1,4 @@
 #include "student.hpp"
-#include <iomanip>
 
 Student::Student()
 {
@@ -13,16 +12,18 @@ Student::Student(string studName, int studID)
     studentID = studID;
 }
 
-void Student::setName()
+void Student::setName(string userName)
 {
-    cout << "\nEnter your name: ";
-    getline(cin, studentName);
-
-    while(studentName.empty())
+    // cout << "\nEnter your name: ";
+    // getline(cin, studentName);
+    /*
+    while(userName.empty())
     {
         cout << "\nName can't be empty, please re-enter: ";
-        getline(cin, studentName);
+        getline(cin, userName);
     }
+    */
+    studentName = userName;
 }
 
 string Student::getName()
@@ -30,16 +31,17 @@ string Student::getName()
     return studentName;
 }
 
-void Student::setStudID()
+void Student::setStudID(int studID)
 {
-    cout << "\nPlease enter student ID (integers): ";
-    cin >> studentID;
+    // cout << "\nPlease enter student ID (integers): ";
+    // cin >> studentID;
 
-    while(studentID <= 0)
+    while(studID <= 0)
     {
         cout << "\nInvalid, student ID should be non-negative: ";
-        cin >> studentID;
+        cin >> studID;
     }
+    studentID = studID;
 }
 
 int Student::getStudID()
@@ -50,7 +52,7 @@ int Student::getStudID()
 void Student::addCourse()
 {
     int num;
-    cout << "\nHow many courses do you have?: ";
+    cout << "\nHow many courses would you like to add?: ";
     cin >> num;
     while (num <= 0)
     {
@@ -58,6 +60,7 @@ void Student::addCourse()
         cin >> num;
     }
 
+    cin.ignore();
     // set all the courses
     for (int i = 1; i <= num; i++)
     {
@@ -71,48 +74,68 @@ void Student::addCourse()
         cout << "\n------------------------------------";
 
         courses.push_back(obj);
+        cin.ignore();
     }
 
 }
 
 double Student::getGPA()
 {
-    double GPA = 0;
+    double GPA = 0.0;
+    int totalPoints = 0;
+    int credits = 0;
 
     for (int i = 0; i < courses.size(); i++)
     {
         if (courses.at(i).getGrade() == 'A')
-            GPA += 4;
+        {
+            totalPoints += (4 * courses.at(i).getCredits());
+            credits += courses.at(i).getCredits();
+        }
         else if (courses.at(i).getGrade() == 'B')
-            GPA += 3;
+        {
+            totalPoints += (3 * courses.at(i).getCredits());
+            credits += courses.at(i).getCredits();
+        }
         else if (courses.at(i).getGrade() == 'C')
-            GPA += 2;
+        {
+            totalPoints += (2 * courses.at(i).getCredits());
+            credits += courses.at(i).getCredits();
+        }
         else if (courses.at(i).getGrade() == 'D')
-            GPA += 1;
+        {
+            totalPoints += (1 * courses.at(i).getCredits());
+            credits += courses.at(i).getCredits();
+        }
         else
-            GPA += 0;
+            totalPoints += 0;
     }
 
-    GPA = GPA / courses.size();
+    GPA = (double) totalPoints / (double) credits;
     return GPA;
+
 }
 
 void Student::printTranscript()
 {
-    cout << "\n-------------------------------------------------"
+    cout << "\n==================================================="
         << "\nTranscript for " << studentName
-        << "\n-------------------------------------------------";
+        << "\n===================================================";
 
-    cout << "\nCourses: ";
+    cout << "\nCourse" << setw(8) << "Grade";
     for (int i = 0; i < courses.size(); i++)
     {
-        cout << "\nCourse ID: " << courses.at(i).getCourseID();
+        cout << "\n"<< courses.at(i).getCourseID() << setw(6) << courses.at(i).getGrade();
     }
 
     cout << "\n\nGPA: " << fixed << setprecision(2) << getGPA();
-    cout << "\n-------------------------------------------------\n";
+    cout << "\n===================================================\n";
 }
 
+int Student::getCoursesSize()
+{
+    return courses.size();
+}
 
 
 
