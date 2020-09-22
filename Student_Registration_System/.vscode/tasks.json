@@ -1,19 +1,26 @@
+// "tasks.json" will handel gcc compiling
+// you can compile multiple files 
+// by adding there name into args as string 			
 {
     "version": "2.0.0",
     "tasks": [
         {
             "type": "shell",
-            "label": "C/C++: clang++ build active file",
-            "command": "/usr/bin/clang++",
+            "label": "C/C++: gcc build active file",
+            "command": "/usr/bin/gcc",
+            // this args are used to/while compiling
             "args": [
-                "-std=c++17",
-                "-stdlib=libc++",
+                // "-v",
                 "-g",
                 "${file}",
+                // Add more files like
+                "${fileDirname}/course.hpp",
                 "${fileDirname}/course.cpp",
+                "${fileDirname}/student.hpp",
                 "${fileDirname}/student.cpp",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                // this is to set output file name
+                // "-o",
+                // "${fileDirname}/${fileBasenameNoExtension}.out"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -21,10 +28,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         }
     ]
 }

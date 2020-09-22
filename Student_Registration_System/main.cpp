@@ -1,3 +1,4 @@
+#include "course.hpp"
 #include "student.hpp"
 
 // function prototypes
